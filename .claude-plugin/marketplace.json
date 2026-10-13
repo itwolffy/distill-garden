@@ -1,15 +1,14 @@
 {
-  "name": "sansheng-distill-marketplace",
-  "description": "叁笙's auditable distillation skill for books, media, creators, and biographies.",
+  "name": "distill-garden",
+  "description": "itwolffy 的 sansheng-distill fork：可审计的书籍、影视、创作者与人物生平蒸馏技能。上游仓库 sanshengai/sansheng-distill。",
   "owner": {
-    "name": "叁笙 (sansheng)",
-    "email": "sandypoli@gmail.com"
+    "name": "itwolffy"
   },
   "plugins": [
     {
-      "name": "sansheng-distill",
-      "description": "Distill books, video series, creator corpora, and evidence-backed biographies into auditable outputs.",
-      "version": "0.11.0",
+      "name": "distill-garden",
+      "description": "Distill books, video series, creator corpora, and evidence-backed biographies into auditable outputs.（itwolffy fork）",
+      "version": "0.11.1",
       "source": "./",
       "author": {
         "name": "叁笙 (sansheng)",

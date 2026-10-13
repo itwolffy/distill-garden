@@ -4,6 +4,12 @@
 
 ## [未发布]
 
+### fork 独立化：更名 distill-garden，与上游插件并存（2026-10-13）
+
+- marketplace 更名 `distill-garden`、插件更名 `distill-garden`、版本 `0.11.1`；`owner` / `homepage` / `repository` 指向本 fork，插件 `author` 保留原作者署名（上游 `sanshengai/sansheng-distill`）。
+- 缘由：本 fork 原本与上游 marketplace 名、插件名、版本号完全相同，无法作为独立来源安装（会撞名/覆盖）。
+- `SKILL.md` frontmatter 的 `name` 同步为 `distill-garden`，技能调用名变为 `distill-garden:distill-garden`。
+
 ### 骨架修：阅读单元序号不再被印成「第 N 章」（2026-10-13）
 
 - `page-skeleton.html` 两处硬编码了「章」：章尾预告卡「继续读第 N 章」与章内上下文条「第 N 章」。其中的 N 实为**阅读单元序号**，并非原书章号——单元 1 通常是序/导言，故对多数书都是错的，还会与摘录里 `-- 原文,第 M 章`（真实章号）同屏冲突。改为「第 N 个单元」。
