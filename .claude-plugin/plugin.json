@@ -1,7 +1,7 @@
 {
   "name": "distill-garden",
   "description": "Distill books, video series, creator corpora, and evidence-backed biographies into auditable outputs.（itwolffy fork）",
-  "version": "0.11.1",
+  "version": "0.11.2",
   "author": {
     "name": "叁笙 (sansheng)",
     "email": "sandypoli@gmail.com"
