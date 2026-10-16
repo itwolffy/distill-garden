@@ -2052,7 +2052,7 @@ body[data-theme="dark"] .bd-brandbar__logo.is-dark,body[data-theme="brand-dark"]
       const a = e.target.closest && e.target.closest('a.jump'); if (!a) return;
       e.preventDefault(); if (dragMoved) return;
       const ch = a.getAttribute('data-ch') || a.getAttribute('href'); if (!ch) return;
-      const m = ch.match(/#ch-(\d+)/); if (m) toast('跳转到第 ' + m[1] + ' 章 · 逐章精读');
+      const m = ch.match(/#ch-(\d+)/); if (m) toast(document.body.dataset.kind === 'video' ? '跳转到第 ' + m[1] + ' 段 · 一段一段看' : '跳转到第 ' + m[1] + ' 章 · 逐章精读');
       location.hash = ch;
     }, true);
     // 工具栏
