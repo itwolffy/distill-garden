@@ -1793,14 +1793,27 @@ body[data-theme="dark"] .bd-brandbar__logo.is-dark,body[data-theme="brand-dark"]
     const byId = {}; nodes.forEach(n => { byId[n.id] = n; });
     // 环合边检测(回路草图,如 支出→收入→…→借贷再扩大→支出):u 可达 v 的边 = 环的闭合边,
     // 不参与分层(否则最长路径迭代被环逐年抬高、列位炸开),整条改画节点带下方(v4.2)
-    const adj = {}; nodes.forEach(n => { adj[n.id] = []; });
-    edges.forEach(e => { if (adj[e.from] && byId[e.to]) adj[e.from].push(e.to); });
+    // 环合边 = 按数据顺序逐边累积前向边时,目标已经能经「已收边」绕回源的那一条 --
+    // 即回路叙述里最后落下的"反哺"边(如 more->spend)。同圈里的前向叙事边(spend->income 等)不牵连。
+    // 不能用强连通分量/静态可达判定:圈内每条边都互相可达,会把前向边全误标。逐边判定,收边后全量重算可达。
     const isCycleEdge = {};
-    nodes.forEach(n => {
-      const seen = {}; const st = (adj[n.id] || []).slice();
-      while (st.length){ const u = st.pop(); if (seen[u]) continue; seen[u] = true; (adj[u] || []).forEach(v => st.push(v)); }
-      edges.forEach(e => { if (e.from === n.id && seen[e.to]) isCycleEdge[e.from + '>' + e.to] = true; });
-    });
+    {
+      const adjA = {}; nodes.forEach(n => { adjA[n.id] = []; });
+      const reachAll = () => {
+        const R = {}; nodes.forEach(n => { R[n.id] = {}; });
+        nodes.forEach(n => {
+          const st = [n.id];
+          while (st.length){ const x = st.pop(); if (R[n.id][x]) continue; R[n.id][x] = true; (adjA[x] || []).forEach(y => st.push(y)); }
+        });
+        return R;
+      };
+      let R = reachAll();
+      edges.forEach(e => {
+        if (!adjA[e.from] || !R[e.to]) return;          // 缺端点的坏边:不收边,后续绘制自会跳过
+        if (R[e.to][e.from]) isCycleEdge[e.from + '>' + e.to] = true;
+        else { adjA[e.from].push(e.to); R = reachAll(); }
+      });
+    }
     const dagEdges = edges.filter(e => !isCycleEdge[e.from + '>' + e.to]);
     // 分层:最长路径(源在 0 层,沿边 +1;带上限防环) -- 只在去环 DAG 上做
     const layer = {}; nodes.forEach(n => { layer[n.id] = 0; });
